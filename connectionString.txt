@@ -1,0 +1,3 @@
+ConnectionStrings__DefaultConnection=Data Source=DESKTOP-ANK96PO\\SQLEXPRESS;Initial Catalog=clubmembership;Integrated Security=True;MultipleActiveResultSets=True
+
+Scaffold-DbContext Name=DefaultConnection Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models\DBObjects -ContextDir Data -Context ApplicationDbContext -f
