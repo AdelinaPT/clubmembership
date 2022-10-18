@@ -13,6 +13,8 @@ namespace clubmembership.Models
         [DisplayFormat(DataFormatString = "0:MM/dd/yyyy")]
         [DataType(DataType.Date)]
         public DateTime ValidTo { get; set; }
+
+        [StringLength(250,ErrorMessage = "Maxim 250 caractere")]
         public string Title { get; set; } = null!;
         public string Text { get; set; } = null!;
 
