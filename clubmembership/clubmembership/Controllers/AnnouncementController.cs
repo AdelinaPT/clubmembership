@@ -17,13 +17,15 @@ namespace clubmembership.Controllers
         // GET: AnnouncementControllercs
         public ActionResult Index()
         {
-            return View();
+            var list = announcementRepository.GetAllAnnouncements();
+            return View(list);
         }
 
         // GET: AnnouncementControllercs/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
-            return View();
+            var model = announcementRepository.GetAnnouncementById(id);
+            return View("DetailsAnnouncement", model);
         }
 
         // GET: AnnouncementControllercs/Create
@@ -47,7 +49,7 @@ namespace clubmembership.Controllers
                     announcementRepository.InsertAnnouncement(model);
                 }
 
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch(Exception error)
             {
@@ -56,44 +58,54 @@ namespace clubmembership.Controllers
         }
 
         // GET: AnnouncementControllercs/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
-            return View();
+            var model = announcementRepository.GetAnnouncementById(id);
+            return View("EditAnnouncement", model);
         }
 
         // POST: AnnouncementControllercs/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Guid id, IFormCollection collection)
         {
             try
             {
+                var model = new AnnouncementModel();
+                var task = TryUpdateModelAsync(model);
+                task.Wait();
+                if (task.Result)
+                {
+                    announcementRepository.UpdateAnnouncement(model);
+                }
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction("Edit", id);
             }
         }
 
         // GET: AnnouncementControllercs/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
-            return View();
+            var model = announcementRepository.GetAnnouncementById(id);
+            return View("DeleteAnnouncement", model);
         }
 
         // POST: AnnouncementControllercs/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(Guid id, IFormCollection collection)
         {
             try
             {
+                announcementRepository.DeleteAnnouncement(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return RedirectToAction("Delete", id);
             }
         }
     }

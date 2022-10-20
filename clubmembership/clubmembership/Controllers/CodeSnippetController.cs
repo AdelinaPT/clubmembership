@@ -3,15 +3,18 @@ using clubmembership.Models;
 using clubmembership.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace clubmembership.Controllers
 {
     public class CodeSnippetController : Controller
     {
         private CodeSnippetRepository codeSnippetRepository;
+        private MemberRepository memberRepository;
 
         public CodeSnippetController(ApplicationDbContext dbContext)
         {
+            memberRepository = new MemberRepository(dbContext);
             codeSnippetRepository = new CodeSnippetRepository(dbContext);
         }
 
@@ -30,7 +33,12 @@ namespace clubmembership.Controllers
         // GET: CodeSnippetController/Create
         public ActionResult Create()
         {
-            return View("CodeSnippet");
+            var members = memberRepository.GetAllMembers();
+            //SelectList memberList = new SelectList(members.Select(x => new SelectListItem(x.Name, x.Idmember.ToString())));
+            var memberList = members.Select(x => new SelectListItem(x.Name, x.Idmember.ToString()));
+            //var memberList = members.Select(x => new SelectListItem() { Text = x.Name, Value = x.Idmember.ToString() });
+            ViewBag.MemberList = memberList;
+            return View("CreateCodeSnippet");
         }
 
         // POST: CodeSnippetController/Create

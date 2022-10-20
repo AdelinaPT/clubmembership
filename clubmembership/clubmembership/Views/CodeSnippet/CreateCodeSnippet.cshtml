@@ -9,6 +9,7 @@
 
 <h4>CodeSnippetModel</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -28,11 +29,13 @@
                 <input asp-for="ContentCode" class="form-control" />
                 <span asp-validation-for="ContentCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+@*            <div class="form-group">
                 <label asp-for="Idmember" class="control-label"></label>
                 <input asp-for="Idmember" class="form-control" />
                 <span asp-validation-for="Idmember" class="text-danger"></span>
-            </div>
+            </div>*@
+            <label asp-for="Idmember" class="control-label"></label>
+            @Html.DropDownList("Idmember", new SelectList(ViewBag.MemberList, "Value", "Text"), "", new {})
             <div class="form-group">
                 <label asp-for="Revision" class="control-label"></label>
                 <input asp-for="Revision" class="form-control" />
